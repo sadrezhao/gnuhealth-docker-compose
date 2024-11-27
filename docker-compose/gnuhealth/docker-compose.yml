@@ -1,0 +1,44 @@
+services:
+  gnuhealth-database:
+    build: ../../docker-images/postgres-mod/
+    env_file:
+      - .env
+    volumes:
+      - ./init-db.sh:/docker-entrypoint-initdb.d/init-db.sh
+      - gnuhealth-data:/var/lib/postgresql/data
+      - gnuhealth-pg-socket:/var/run/postgresql
+    restart: always
+    networks:
+      - vhp_network
+
+  gnuhealth:
+    build:
+      context: ../../docker-images/gnuhealth/
+      args:
+        GNUHEALTH_SAO_PORT: ${GNUHEALTH_SAO_PORT}
+        GNUHEALTH_WEBDEV_PORT: ${GNUHEALTH_WEBDEV_PORT}
+        GNUHEALTH_FHIR_PORT: ${GNUHEALTH_FHIR_PORT}
+    env_file:
+      - .env
+    ports:
+      - "${GNUHEALTH_SAO_PORT}:${GNUHEALTH_SAO_PORT}"
+      - "${GNUHEALTH_WEBDEV_PORT}:${GNUHEALTH_WEBDEV_PORT}"
+      - "${GNUHEALTH_FHIR_PORT}:${GNUHEALTH_FHIR_PORT}"
+    depends_on:
+      - gnuhealth-database
+    command: bash /home/gnuhealth/init.sh
+    volumes:
+      - ./init-gnuhealth.sh:/home/gnuhealth/init.sh
+      - gnuhealth-attach:/home/gnuhealth/attach
+      # - ./fhir_server.log:/tmp/fhir_server.log
+    networks:
+      - vhp_network
+
+networks:
+  vhp_network:
+    name: ${VHP_NETWORK_NAME}
+
+volumes:
+  gnuhealth-data:
+  gnuhealth-pg-socket:
+  gnuhealth-attach:
