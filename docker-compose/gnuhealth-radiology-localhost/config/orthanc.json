@@ -1,0 +1,13 @@
+{
+  "Name": "${ORTHANC_NAME}",
+  "StorageDirectory": "/var/lib/orthanc/db",
+  "Plugins": [
+    "/usr/share/orthanc/plugins",
+    "/usr/local/share/orthanc/plugins",
+    "/home/root/OrthancJava-1.0/BuildPlugin/libOrthancJava.so"
+  ],
+  "RemoteAccessAllowed": true,
+  "AuthenticationEnabled": true,
+  "DicomPort": 4242,
+  "OrthancExplorer2": { "IsDefaultOrthancUI": false }
+}
