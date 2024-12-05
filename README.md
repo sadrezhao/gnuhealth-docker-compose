@@ -42,4 +42,6 @@ Two GNUHealt databases are created: the demo database `ghdemo44` described in ht
 
 The web interface of Orthanc is reachable under http://localhost:8888/ with username `orthanc` and password `orthanc`. However, when you add the Orthanc server as a radiology server inside GNUHealth, you have to use the URL http://localhost:8042/.
 
+The video demonstrates how to use the 'Radiology Module': https://youtu.be/bYODXdy25l8
+
 Note that it can take several minutes for the web interface to become available when you start the containers for the first time.
